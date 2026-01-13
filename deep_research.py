@@ -8,9 +8,9 @@ async def run(query: str):
     async for chunk in ResearchManager().run(query):
         yield chunk
 
-with gr.blocks(theme=gr.themes.Default(primary_hue="sky")) as ui:
-    gr.Markdown("# Deep Research Assistant")
-    query_textbox = gr.textbox(label="What topic would you like to research today?")
+with gr.Blocks(theme=gr.themes.Default(primary_hue="sky")) as ui:
+    gr.Markdown("# Shyam's Deep Research Assistant")
+    query_textbox = gr.Textbox(label="What topic would you like to research today?")
     run_button = gr.Button("Run", variant="primary")
     report = gr.Markdown(label="Report")
 
