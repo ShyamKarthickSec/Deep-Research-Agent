@@ -6,6 +6,36 @@ from agents import Runner
 
 load_dotenv(override=True)
 
+# Subtle dark theme styling for a ChatGPT-like feel
+CUSTOM_CSS = """
+:root {color-scheme: dark;}
+body, .gradio-container {background: #050712;}
+.page {max-width: 900px; margin: 0 auto; gap: 18px;}
+.section-card {
+    background: linear-gradient(135deg, #0d0a1a 0%, #0f0c1f 100%);
+    border: 1px solid rgba(139, 92, 246, 0.22);
+    border-radius: 16px;
+    padding: 18px;
+    box-shadow: 0 16px 48px rgba(0,0,0,0.45);
+}
+.section-title {
+    background: linear-gradient(120deg, rgba(139,92,246,0.24), rgba(99,102,241,0.18));
+    border: 1px solid rgba(139, 92, 246, 0.3);
+    border-radius: 10px;
+    padding: 10px 12px;
+    color: #ece9ff !important;
+    margin-bottom: 12px;
+}
+.header {text-align: center;}
+.subhead {text-align: center; color: #cbc6ff !important;}
+.status-text {font-size: 0.95rem; color: #e2ddff;}
+.gr-textbox textarea {background: rgba(255,255,255,0.03); border-color: rgba(139, 92, 246, 0.32);}
+.gr-markdown {color: #e8ebff;}
+.gr-button-primary {background: linear-gradient(120deg, #8b5cf6, #6366f1); color: #f8f9ff; border: none;}
+.gr-button-secondary {background: rgba(255,255,255,0.05); border: 1px solid rgba(139, 92, 246, 0.28); color: #e8ebff;}
+.gr-input, .gr-textbox, .gr-dropdown, .gr-button {border-radius: 10px !important;}
+"""
+
 # Default fallback questions in case the clarifier agent fails
 DEFAULT_QUESTIONS = [
     "What specific aspect or subtopic should the research focus on?",
@@ -123,60 +153,61 @@ def reset_ui():
     )
 
 # Build the UI
-with gr.Blocks(theme=gr.themes.Default(primary_hue="sky")) as ui:
-    gr.Markdown("# 🔬 Shyam's Deep Research Assistant")
-    gr.Markdown("*Enhanced with intelligent clarification for better research results*")
-    
-    # State to hold query, questions, and answers
-    state = gr.State({})
-    
-    with gr.Group():
-        gr.Markdown("### Step 1: Enter Your Research Query")
-        query_textbox = gr.Textbox(
-            label="What topic would you like to research today?",
-            placeholder="e.g., Impact of artificial intelligence on healthcare",
-            lines=2
-        )
-        clarify_button = gr.Button("🎯 Next: Clarify", variant="primary", size="lg")
-    
-    with gr.Group():
-        gr.Markdown("### Step 2: Refine Your Research")
-        questions_display = gr.Markdown("")
-        status_text = gr.Markdown("")
+with gr.Blocks(theme=gr.themes.Soft(primary_hue="emerald", neutral_hue="slate"), css=CUSTOM_CSS) as ui:
+    with gr.Column(elem_classes="page"):
+        gr.Markdown("# 🔬 Shyam's Deep Research Assistant", elem_classes="header")
+        gr.Markdown("*Enhanced with intelligent clarification for better research results*", elem_classes="subhead")
         
-        answers_textbox = gr.Textbox(
-            label="Your Answers",
-            placeholder="Fill in your answers after each A1:, A2:, etc.",
-            lines=12,
-            visible=False
+        # State to hold query, questions, and answers
+        state = gr.State({})
+        
+        with gr.Group(elem_classes="section-card"):
+            gr.Markdown("### Step 1: Enter Your Research Query", elem_classes="section-title")
+            query_textbox = gr.Textbox(
+                label="What topic would you like to research today?",
+                placeholder="e.g., Impact of artificial intelligence on healthcare",
+                lines=2
+            )
+            clarify_button = gr.Button("🎯 Next: Clarify", variant="primary", size="lg")
+        
+        with gr.Group(elem_classes="section-card"):
+            gr.Markdown("### Step 2: Refine Your Research", elem_classes="section-title")
+            questions_display = gr.Markdown("")
+            status_text = gr.Markdown("", elem_classes="status-text")
+            
+            answers_textbox = gr.Textbox(
+                label="Your Answers",
+                placeholder="Fill in your answers after each A1:, A2:, etc.",
+                lines=12,
+                visible=False
+            )
+            
+            with gr.Row():
+                run_button = gr.Button("🚀 Run Deep Research", variant="primary", size="lg", visible=False)
+                reset_button = gr.Button("🔄 Reset", variant="secondary", visible=False)
+        
+        with gr.Group(elem_classes="section-card"):
+            gr.Markdown("### Research Report", elem_classes="section-title")
+            report = gr.Markdown("")
+        
+        # Wire up the event handlers
+        clarify_button.click(
+            fn=generate_questions,
+            inputs=[query_textbox, state],
+            outputs=[state, questions_display, status_text, answers_textbox, run_button, reset_button]
         )
         
-        with gr.Row():
-            run_button = gr.Button("🚀 Run Deep Research", variant="primary", size="lg", visible=False)
-            reset_button = gr.Button("🔄 Reset", variant="secondary", visible=False)
-    
-    with gr.Group():
-        gr.Markdown("### Research Report")
-        report = gr.Markdown("")
-    
-    # Wire up the event handlers
-    clarify_button.click(
-        fn=generate_questions,
-        inputs=[query_textbox, state],
-        outputs=[state, questions_display, status_text, answers_textbox, run_button, reset_button]
-    )
-    
-    run_button.click(
-        fn=run_research,
-        inputs=[query_textbox, answers_textbox, state],
-        outputs=report
-    )
-    
-    reset_button.click(
-        fn=reset_ui,
-        inputs=[],
-        outputs=[state, query_textbox, questions_display, status_text, answers_textbox, run_button, reset_button, report]
-    )
+        run_button.click(
+            fn=run_research,
+            inputs=[query_textbox, answers_textbox, state],
+            outputs=report
+        )
+        
+        reset_button.click(
+            fn=reset_ui,
+            inputs=[],
+            outputs=[state, query_textbox, questions_display, status_text, answers_textbox, run_button, reset_button, report]
+        )
 
 ui.launch(inbrowser=True)
 
