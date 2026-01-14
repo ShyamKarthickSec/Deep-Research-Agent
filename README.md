@@ -1,4 +1,10 @@
-# 🔬 Shyam's Deep Research Agent
+---
+title: Shyams_Deep_Research_Assistant
+app_file: app.py
+sdk: gradio
+sdk_version: 5.34.2
+---
+#  Shyam's Deep Research Agent
 
 An agentic, multi-stage research assistant that transforms a vague user query into a high-quality, deeply researched report by combining:
 
@@ -13,19 +19,19 @@ This project demonstrates a real-world agent orchestration pipeline, not a singl
 
 ---
 
-## ✨ Key Features
-- 🧠 **Clarifier Agent** – Asks exactly 4 targeted questions to refine the research scope  
-- 🗺️ **Planner Agent** – Designs an optimal web search plan  
-- 🔍 **Search Agent** – Executes parallel web searches using tool-calling  
-- ✍️ **Writer Agent** – Synthesizes results into a detailed Markdown report (1000+ words)  
-- 📧 **Email Agent** – Sends the final report as a clean HTML email  
-- 🧩 **Research Manager** – Orchestrates the full agent pipeline with tracing  
-- 🖥️ **Interactive UI** – ChatGPT-style Gradio interface with stateful refinement  
-- 🧪 **Tracing Enabled** – Full OpenAI trace IDs for debugging and observability  
+##  Key Features
+-  **Clarifier Agent** – Asks exactly 4 targeted questions to refine the research scope  
+-  **Planner Agent** – Designs an optimal web search plan  
+-  **Search Agent** – Executes parallel web searches using tool-calling  
+-  **Writer Agent** – Synthesizes results into a detailed Markdown report (1000+ words)  
+-  **Email Agent** – Sends the final report as a clean HTML email  
+-  **Research Manager** – Orchestrates the full agent pipeline with tracing  
+-  **Interactive UI** – ChatGPT-style Gradio interface with stateful refinement  
+-  **Tracing Enabled** – Full OpenAI trace IDs for debugging and observability  
 
 ---
 
-## 🏗️ Architecture Overview
+##  Architecture Overview
 ```
 User Query
    │
@@ -51,7 +57,7 @@ This separation of concerns makes the system modular, testable, and extensible.
 
 ---
 
-## 📁 Project Structure
+##  Project Structure
 ```
 .
 ├── deep_research.py        # Gradio UI + user interaction flow
@@ -67,7 +73,7 @@ This separation of concerns makes the system modular, testable, and extensible.
 
 ---
 
-## 🤖 Agents Explained
+##  Agents Explained
 ### 1) Clarifier Agent
 - Generates exactly four focused clarifying questions to improve research quality.  
 - Built with Pydantic output validation; guaranteed structured output.  
@@ -105,7 +111,7 @@ This separation of concerns makes the system modular, testable, and extensible.
 
 ---
 
-## 🖥️ User Interface
+##  User Interface
 - Built with Gradio, styled for a subtle ChatGPT-like dark theme.  
 - Flow:
   1. Enter research query  
@@ -113,11 +119,11 @@ This separation of concerns makes the system modular, testable, and extensible.
   3. Run deep research  
   4. View streamed progress + final report  
   5. Reset and start over  
-- 📄 Source: `deep_research.py` (`deep_research`)
+- 📄 Source: `app.py` (`app`)
 
 ---
 
-## 🚀 Getting Started
+##  Getting Started
 ### 1) Install Dependencies
 ```bash
 pip install gradio python-dotenv resend openai-agents
@@ -133,7 +139,7 @@ RESEND_API_KEY=your_resend_key
 
 ### 3) Run the App
 ```bash
-python deep_research.py
+python app.py
 ```
 The UI will launch in your browser at:
 ```
@@ -142,7 +148,7 @@ http://127.0.0.1:7860
 
 ---
 
-## 🧪 Example Use Cases
+##  Example Use Cases
 - Academic literature reviews  
 - Market & competitive research  
 - Policy and regulation analysis  
@@ -152,7 +158,7 @@ http://127.0.0.1:7860
 
 ---
 
-## 🔍 Why This Project Is Different
+##  Why This Project Is Different
 - ✔ Not a single-prompt chatbot  
 - ✔ True agentic decomposition  
 - ✔ Deterministic structured outputs  
@@ -164,7 +170,7 @@ This is portfolio-grade agent engineering, not a demo.
 
 ---
 
-## 🛠️ Future Pipeline Integtrations:
+##  Future Pipeline Integrations:
 - Add citation extraction & reference linking  
 - Plug in vector databases for memory  
 - Replace search tool with custom crawlers  
@@ -174,5 +180,5 @@ This is portfolio-grade agent engineering, not a demo.
 
 ---
 
-## 👤 Author
+##  Author
 Shyam Karthick
