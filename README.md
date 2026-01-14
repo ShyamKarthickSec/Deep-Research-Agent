@@ -164,18 +164,13 @@ This is portfolio-grade agent engineering, not a demo.
 
 ---
 
-## 🛠️ Extensibility Ideas
+## 🛠️ Future Pipeline Integtrations:
 - Add citation extraction & reference linking  
 - Plug in vector databases for memory  
 - Replace search tool with custom crawlers  
 - Add PDF / DOCX export  
 - Add multi-language support  
 - Add evaluation / confidence scoring agent  
-
----
-
-## 📜 License
-MIT License — free to use, modify, and extend.
 
 ---
 
